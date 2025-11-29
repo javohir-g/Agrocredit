@@ -50,6 +50,15 @@
         .animate-mesh {
             animation: mesh 20s infinite ease-in-out;
         }
+
+        /* Voice Wave Animation */
+        @keyframes wave {
+            0%, 100% { height: 10%; }
+            50% { height: 100%; }
+        }
+        .wave-bar {
+            animation: wave 1s ease-in-out infinite;
+        }
     </style>
 </head>
 
@@ -197,7 +206,7 @@
             </div>
         </section>
 
-        <!-- SECTION 4: PROCESS (NEW) -->
+        <!-- SECTION 4: PROCESS -->
         <section class="min-h-[100dvh] w-full snap-start flex flex-col justify-center items-center bg-zinc-900 relative px-6 py-20 text-white">
             <div class="absolute inset-0 w-full h-full overflow-hidden">
                 <div class="absolute top-0 left-1/2 w-[800px] h-[400px] bg-emerald-500/10 rounded-full blur-[120px] -translate-x-1/2"></div>
@@ -287,7 +296,7 @@
             </div>
         </section>
 
-        <!-- SECTION 5: BENEFITS (NEW) -->
+        <!-- SECTION 5: BENEFITS -->
         <section class="min-h-[100dvh] w-full snap-start flex flex-col justify-center items-center bg-zinc-50 relative px-6 py-20">
             <div class="max-w-6xl w-full">
                 <div class="mb-16 reveal text-center">
@@ -387,7 +396,154 @@
             </div>
         </section>
 
-        <!-- SECTION 6: TEAM -->
+        <!-- SECTION 6: FARMER TOOLS (NEW) -->
+        <section class="min-h-[100dvh] w-full snap-start flex flex-col justify-center items-center bg-white px-6 py-20 relative">
+            <div class="max-w-6xl w-full">
+                <div class="mb-16 reveal text-center">
+                    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-4">Инструменты для фермеров</h2>
+                    <p class="text-zinc-500 text-lg">Цифровые помощники для повышения урожайности и снижения рисков.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 reveal">
+                    
+                    <!-- Monitoring -->
+                    <div class="bg-zinc-50 p-6 rounded-2xl border border-zinc-200 hover:shadow-lg transition-all duration-300 group">
+                        <div class="w-10 h-10 rounded-lg bg-white border border-zinc-200 text-emerald-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i data-lucide="satellite" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-zinc-900 mb-3">Мониторинг полей</h3>
+                        <ul class="space-y-2.5">
+                            <li class="flex items-start gap-2 text-xs text-zinc-600">
+                                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 mt-0.5"></i>
+                                Анализ спутниковых снимков
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-zinc-600">
+                                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 mt-0.5"></i>
+                                Оценка состояния растений
+                            </li>
+                             <li class="flex items-start gap-2 text-xs text-zinc-600">
+                                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 mt-0.5"></i>
+                                Уведомления о проблемах
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- AI Assistant (HIGHLIGHTED) -->
+                    <div class="bg-zinc-900 p-6 rounded-2xl border border-zinc-800 relative overflow-hidden group shadow-xl ring-4 ring-zinc-50 lg:row-span-1">
+                         <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500 rounded-full blur-[60px] opacity-30 animate-pulse"></div>
+                         
+                         <div class="flex items-center justify-between mb-6">
+                             <div class="w-10 h-10 rounded-lg bg-zinc-800 text-white flex items-center justify-center border border-zinc-700">
+                                <i data-lucide="mic" class="w-5 h-5"></i>
+                            </div>
+                            <div class="flex gap-1 items-end h-5">
+                                <div class="w-1 bg-emerald-500 rounded-full wave-bar" style="animation-duration: 0.6s"></div>
+                                <div class="w-1 bg-emerald-500 rounded-full wave-bar" style="animation-duration: 0.8s"></div>
+                                <div class="w-1 bg-emerald-500 rounded-full wave-bar" style="animation-duration: 0.5s"></div>
+                                <div class="w-1 bg-emerald-500 rounded-full wave-bar" style="animation-duration: 0.9s"></div>
+                            </div>
+                         </div>
+                        
+                        <h3 class="text-lg font-semibold text-white mb-1">ИИ-ассистент</h3>
+                        <p class="text-xs text-emerald-400 font-medium mb-4 uppercase tracking-wider">Голос + Чат</p>
+                        
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-2 text-xs text-zinc-300">
+                                <span class="w-1 h-1 bg-emerald-500 rounded-full mt-1.5"></span>
+                                Ответы на вопросы по хозяйству
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-zinc-300">
+                                <span class="w-1 h-1 bg-emerald-500 rounded-full mt-1.5"></span>
+                                Планы действий и прогнозы
+                            </li>
+                             <li class="flex items-start gap-2 text-xs text-zinc-300">
+                                <span class="w-1 h-1 bg-emerald-500 rounded-full mt-1.5"></span>
+                                Доступен через веб или Telegram
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div class="bg-zinc-50 p-6 rounded-2xl border border-zinc-200 hover:shadow-lg transition-all duration-300 group">
+                        <div class="w-10 h-10 rounded-lg bg-white border border-zinc-200 text-emerald-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i data-lucide="sprout" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-zinc-900 mb-3">Персональные советы</h3>
+                        <ul class="space-y-2.5">
+                            <li class="flex items-start gap-2 text-xs text-zinc-600">
+                                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 mt-0.5"></i>
+                                Оптимизация полива
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-zinc-600">
+                                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 mt-0.5"></i>
+                                Подбор удобрений
+                            </li>
+                             <li class="flex items-start gap-2 text-xs text-zinc-600">
+                                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 mt-0.5"></i>
+                                Умная защита растений
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Agro-calendar -->
+                    <div class="bg-zinc-50 p-6 rounded-2xl border border-zinc-200 hover:shadow-lg transition-all duration-300 group">
+                        <div class="w-10 h-10 rounded-lg bg-white border border-zinc-200 text-blue-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i data-lucide="calendar-clock" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-zinc-900 mb-3">Агро-календарь</h3>
+                         <ul class="space-y-2.5">
+                            <li class="flex items-start gap-2 text-xs text-zinc-600">
+                                <i data-lucide="check" class="w-3.5 h-3.5 text-blue-500 mt-0.5"></i>
+                                Авто-планирование работ
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-zinc-600">
+                                <i data-lucide="check" class="w-3.5 h-3.5 text-blue-500 mt-0.5"></i>
+                                Напоминания и контроль
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Financial Analytics -->
+                    <div class="bg-zinc-50 p-6 rounded-2xl border border-zinc-200 hover:shadow-lg transition-all duration-300 group">
+                        <div class="w-10 h-10 rounded-lg bg-white border border-zinc-200 text-purple-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i data-lucide="trending-up" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-zinc-900 mb-3">Фин. аналитика</h3>
+                         <ul class="space-y-2.5">
+                            <li class="flex items-start gap-2 text-xs text-zinc-600">
+                                <i data-lucide="check" class="w-3.5 h-3.5 text-purple-500 mt-0.5"></i>
+                                Учёт затрат
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-zinc-600">
+                                <i data-lucide="check" class="w-3.5 h-3.5 text-purple-500 mt-0.5"></i>
+                                Прогноз доходности
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Credit Navigator -->
+                    <div class="bg-zinc-50 p-6 rounded-2xl border border-zinc-200 hover:shadow-lg transition-all duration-300 group">
+                        <div class="w-10 h-10 rounded-lg bg-white border border-zinc-200 text-orange-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i data-lucide="wallet" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-zinc-900 mb-3">Кредитный навигатор</h3>
+                         <ul class="space-y-2.5">
+                            <li class="flex items-start gap-2 text-xs text-zinc-600">
+                                <i data-lucide="check" class="w-3.5 h-3.5 text-orange-500 mt-0.5"></i>
+                                Подбор кредитов
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-zinc-600">
+                                <i data-lucide="check" class="w-3.5 h-3.5 text-orange-500 mt-0.5"></i>
+                                Документы в один клик
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: TEAM -->
         <section class="h-[100dvh] w-full snap-start flex flex-col justify-center bg-zinc-50 px-6 overflow-hidden">
             <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-12 text-center reveal">Команда</h2>
             <div class="max-w-7xl w-full mx-auto h-[65vh] flex flex-col md:flex-row gap-3 reveal">
@@ -439,7 +595,7 @@
             </div>
         </section>
 
-        <!-- SECTION 7: ROADMAP -->
+        <!-- SECTION 8: ROADMAP -->
         <section class="min-h-[100dvh] w-full snap-start flex flex-col justify-center items-center bg-white px-6 py-20">
             <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-20 text-zinc-900 reveal">Дорожная карта</h2>
             <div class="w-full max-w-7xl reveal overflow-x-auto pb-10 no-scrollbar">
@@ -523,7 +679,7 @@
             </div>
         </section>
 
-        <!-- SECTION 8: IMPLEMENTATION -->
+        <!-- SECTION 9: IMPLEMENTATION -->
         <section class="min-h-[100dvh] w-full snap-start flex flex-col justify-center items-center bg-zinc-50 px-6 py-20">
             <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-12 text-zinc-900 reveal">Технологии</h2>
 
@@ -579,7 +735,7 @@
             </div>
         </section>
 
-        <!-- SECTION 9: DEMO -->
+        <!-- SECTION 10: DEMO -->
         <section id="demo" class="min-h-[100dvh] w-full snap-start flex flex-col justify-center items-center bg-white px-4 py-20 overflow-hidden">
             <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4 text-zinc-900 reveal">Живая демонстрация</h2>
             <p class="text-zinc-500 mb-8 reveal">Интерфейс кредитного эксперта банка</p>
