@@ -8,34 +8,20 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Configure CORS for production deployment
-# ВРЕМЕННО: Разрешаем все origins для тестирования
-# TODO: В продакшене установите ALLOWED_ORIGINS в переменных окружения
-allowed_origins = os.getenv('ALLOWED_ORIGINS', '*')
-if allowed_origins == '*':
-    # Для локальной разработки - разрешаем всё
-    CORS(app, resources={
-        r"/*": {
-            "origins": "*",
-            "methods": ["GET", "POST", "OPTIONS"],
-            "allow_headers": ["Content-Type"],
-            "supports_credentials": False
-        }
-    })
-else:
-    # Для продакшена - только указанные домены
-    CORS(app, resources={
-        r"/chat": {
-            "origins": allowed_origins.split(','),
-            "methods": ["POST", "OPTIONS"],
-            "allow_headers": ["Content-Type"]
-        }
-    })
+# Configure CORS - разрешаем доступ со всех доменов
+CORS(app, resources={
+    r"/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": False
+    }
+})
 
 # Configure Gemini API
 genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
 
-CHAT_CONTEXT = """Ты — чат-бот по проекту AgroCredit / AgroScore.AI. Твоя задача — отвечать на вопросы пользователей о проекте, используя только информацию, описанную ниже. Не придумывай лишнего и не выходи за рамки описанного функционала. Отвечай том языке, на котором задан вопрос.
+CHAT_CONTEXT = """Ты — чат-бот по проекту AgroScore.AI. Твоя задача — отвечать на вопросы пользователей о проекте, используя только информацию, описанную ниже. Не придумывай лишнего и не выходи за рамки описанного функционала. Отвечай том языке, на котором задан вопрос.
 
 Информация о проекте:
 
@@ -128,6 +114,28 @@ Q3–Q4 2026 — масштабирование
 
 """
 
+@app.route('/', methods=['GET'])
+def home():
+    """Корневой endpoint с информацией об API"""
+    return jsonify({
+        'name': 'AgroScore.AI Chat API',
+        'version': '1.0.0',
+        'status': 'running',
+        'endpoints': {
+            '/': 'API information',
+            '/health': 'Health check',
+            '/chat': 'Chat endpoint (POST)'
+        }
+    })
+
+@app.route('/health', methods=['GET'])
+def health():
+    """Health check endpoint"""
+    return jsonify({
+        'status': 'healthy',
+        'service': 'agroscore-chat-api'
+    })
+
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
@@ -138,7 +146,7 @@ def chat():
             return jsonify({'error': 'Message is required'}), 400
         
         # Create the model
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.5-pro')
         
         # Generate response
         full_prompt = f"{CHAT_CONTEXT}\n\nUser Question: {message}"
