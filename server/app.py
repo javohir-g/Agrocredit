@@ -9,15 +9,19 @@ load_dotenv()
 app = Flask(__name__)
 
 # Configure CORS for production deployment
-# Allows requests from localhost (development) and Render.com (production)
-allowed_origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000,http://127.0.0.1:3000').split(',')
-CORS(app, resources={
-    r"/chat": {
-        "origins": allowed_origins,
-        "methods": ["POST", "OPTIONS"],
-        "allow_headers": ["Content-Type"]
-    }
-})
+# ВРЕМЕННО: Разрешаем все origins для тестирования
+# TODO: В продакшене установите ALLOWED_ORIGINS в переменных окружения
+allowed_origins = os.getenv('ALLOWED_ORIGINS', '*')
+if allowed_origins == '*':
+    CORS(app, resources={r"/chat": {"origins": "*"}})
+else:
+    CORS(app, resources={
+        r"/chat": {
+            "origins": allowed_origins.split(','),
+            "methods": ["POST", "OPTIONS"],
+            "allow_headers": ["Content-Type"]
+        }
+    })
 
 # Configure Gemini API
 genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
@@ -125,7 +129,7 @@ def chat():
             return jsonify({'error': 'Message is required'}), 400
         
         # Create the model
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.5-pro')
         
         # Generate response
         full_prompt = f"{CHAT_CONTEXT}\n\nUser Question: {message}"
