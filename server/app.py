@@ -13,8 +13,17 @@ app = Flask(__name__)
 # TODO: В продакшене установите ALLOWED_ORIGINS в переменных окружения
 allowed_origins = os.getenv('ALLOWED_ORIGINS', '*')
 if allowed_origins == '*':
-    CORS(app, resources={r"/chat": {"origins": "*"}})
+    # Для локальной разработки - разрешаем всё
+    CORS(app, resources={
+        r"/*": {
+            "origins": "*",
+            "methods": ["GET", "POST", "OPTIONS"],
+            "allow_headers": ["Content-Type"],
+            "supports_credentials": False
+        }
+    })
 else:
+    # Для продакшена - только указанные домены
     CORS(app, resources={
         r"/chat": {
             "origins": allowed_origins.split(','),
