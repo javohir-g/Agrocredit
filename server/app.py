@@ -129,7 +129,7 @@ def chat():
             return jsonify({'error': 'Message is required'}), 400
         
         # Create the model
-        model = genai.GenerativeModel('gemini-2.5-pro')
+        model = genai.GenerativeModel('gemini-1.5-flash')
         
         # Generate response
         full_prompt = f"{CHAT_CONTEXT}\n\nUser Question: {message}"
