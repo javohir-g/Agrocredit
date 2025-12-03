@@ -115,7 +115,7 @@ def chat():
             return jsonify({'error': 'Message is required'}), 400
         
         # Create the model
-        model = genai.GenerativeModel('gemini-2.5-pro')
+        model = genai.GenerativeModel('gemini-1.5-flash')
         
         # Generate response
         full_prompt = f"{CHAT_CONTEXT}\n\nUser Question: {message}"
@@ -128,6 +128,7 @@ def chat():
         return jsonify({'error': 'Internal server error', 'message': str(e)}), 500
 
 if __name__ == '__main__':
-    print("🚀 Server running on http://localhost:3000")
-    print("📡 Chat endpoint: http://localhost:3000/chat")
-    app.run(host='0.0.0.0', port=3000, debug=True)
+    PORT = int(os.getenv('PORT', 3000))
+    print(f"🚀 Server running on http://localhost:{PORT}")
+    print(f"📡 Chat endpoint: http://localhost:{PORT}/chat")
+    app.run(host='0.0.0.0', port=PORT, debug=False)
