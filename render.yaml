@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: agrocredit
+    env: python
+    buildCommand: "pip install -r server/requirements.txt"
+    startCommand: "cd server && python app.py"
+    envVars:
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: PORT
+        value: 10000

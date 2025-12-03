@@ -1,12 +1,15 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-import google.generativeai as genai
+from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+# Настройка Flask для раздачи статических файлов из demo/
+app = Flask(__name__, 
+            static_folder='../demo',
+            static_url_path='')
 
 # Configure CORS - разрешаем доступ со всех доменов
 CORS(app, resources={
@@ -18,8 +21,8 @@ CORS(app, resources={
     }
 })
 
-# Configure Gemini API
-genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
+# Configure OpenAI API
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 CHAT_CONTEXT = """Ты — чат-бот по проекту AgroScore.AI. Твоя задача — отвечать на вопросы пользователей о проекте, используя только информацию, описанную ниже. Не придумывай лишнего и не выходи за рамки описанного функционала. Отвечай том языке, на котором задан вопрос.
 
@@ -114,21 +117,47 @@ Q3–Q4 2026 — масштабирование
 
 """
 
-@app.route('/', methods=['GET'])
-def home():
-    """Корневой endpoint с информацией об API"""
+# ============================================
+# СТАТИЧЕСКИЕ ФАЙЛЫ
+# ============================================
+
+@app.route('/')
+def serve_index():
+    """Главная страница - index.html из корня проекта"""
+    return send_from_directory('..', 'index.html')
+
+@app.route('/demo')
+def serve_demo():
+    """Демо страница - demo/index.html"""
+    return send_from_directory('../demo', 'index.html')
+
+@app.route('/photos/<path:path>')
+def serve_photos(path):
+    """Раздача фотографий из папки photos"""
+    return send_from_directory('../photos', path)
+
+# ============================================
+# API ENDPOINTS
+# ============================================
+
+@app.route('/api/info', methods=['GET'])
+def api_info():
+    """Информация об API"""
     return jsonify({
         'name': 'AgroScore.AI Chat API',
         'version': '1.0.0',
         'status': 'running',
         'endpoints': {
-            '/': 'API information',
-            '/health': 'Health check',
-            '/chat': 'Chat endpoint (POST)'
+            '/': 'Main page (root index.html)',
+            '/demo': 'Demo page (demo/index.html)',
+            '/photos': 'Photos directory',
+            '/api/info': 'API information',
+            '/api/health': 'Health check',
+            '/api/chat': 'Chat endpoint (POST)'
         }
     })
 
-@app.route('/health', methods=['GET'])
+@app.route('/api/health', methods=['GET'])
 def health():
     """Health check endpoint"""
     return jsonify({
@@ -136,7 +165,7 @@ def health():
         'service': 'agroscore-chat-api'
     })
 
-@app.route('/chat', methods=['POST'])
+@app.route('/api/chat', methods=['POST'])
 def chat():
     try:
         data = request.get_json()
@@ -145,14 +174,16 @@ def chat():
         if not message:
             return jsonify({'error': 'Message is required'}), 400
         
-        # Create the model
-        model = genai.GenerativeModel('gemini-2.5-pro')
-        
         # Generate response
-        full_prompt = f"{CHAT_CONTEXT}\n\nUser Question: {message}"
-        response = model.generate_content(full_prompt)
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": CHAT_CONTEXT},
+                {"role": "user", "content": message}
+            ]
+        )
         
-        return jsonify({'reply': response.text})
+        return jsonify({'reply': response.choices[0].message.content})
         
     except Exception as e:
         print(f"Error: {str(e)}")
