@@ -1,4 +1,3 @@
-<!-- demo/index.html (обновлённая версия с реальным чат-ботом) -->
 <!DOCTYPE html>
 <html lang="ru" class="scroll-smooth">
 
@@ -10,22 +9,79 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
     <style>
-        :root { --font-sans: 'Inter', system-ui, -apple-system, sans-serif; }
-        body { font-family: var(--font-sans); font-feature-settings: "cv02","cv03","cv04","cv11"; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
-        .reveal.active { opacity:1; transform: translateY(0); }
-        @keyframes mesh { 0%{transform:scale(1) rotate(0deg);} 50%{transform:scale(1.2) rotate(10deg);} 100%{transform:scale(1) rotate(0deg);} }
-        .animate-mesh { animation: mesh 20s infinite ease-in-out; }
-        .chat-enter { opacity:0; transform:translateY(10px) scale(0.95); pointer-events:none; }
-        .chat-enter.active { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+        :root {
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Hide Scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mesh Gradient Animation */
+        @keyframes mesh {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            50% {
+                transform: scale(1.2) rotate(10deg);
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .animate-mesh {
+            animation: mesh 20s infinite ease-in-out;
+        }
+
+        /* Chat Bot Animations */
+        .chat-enter {
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            pointer-events: none;
+        }
+
+        .chat-enter.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
     </style>
 </head>
 
-<!-- Background Gradients -->
+<body
+    class="bg-zinc-50 text-zinc-900 selection:bg-emerald-100 selection:text-emerald-900 antialiased overflow-x-hidden relative">
+
+    <!-- Background Gradients -->
     <div class="fixed inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
         <div
             class="absolute top-[-20%] left-[20%] w-[60vw] h-[60vw] bg-emerald-100/50 rounded-full blur-[120px] animate-mesh mix-blend-multiply">
@@ -212,16 +268,12 @@
         </div>
     </main>
 
-
-<body class="bg-zinc-50 text-zinc-900 selection:bg-emerald-100 selection:text-emerald-900 antialiased overflow-x-hidden relative">
-
-    <!-- Navigation and Main Content ... (оставляем как есть) -->
-
     <!-- CHATBOT WIDGET -->
     <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2">
 
         <!-- Chat Window -->
-        <div id="chat-window" class="chat-enter hidden transition-all duration-300 origin-bottom-right w-[340px] max-w-[calc(100vw-3rem)] bg-white rounded-2xl border border-zinc-200 shadow-2xl flex flex-col overflow-hidden">
+        <div id="chat-window"
+            class="chat-enter transition-all duration-300 origin-bottom-right absolute bottom-16 right-0 w-[340px] max-w-[calc(100vw-3rem)] bg-white rounded-2xl border border-zinc-200 shadow-2xl flex flex-col overflow-hidden">
             <!-- Header -->
             <div class="p-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/50 backdrop-blur-sm">
                 <div class="flex items-center gap-2">
@@ -233,13 +285,53 @@
                 </button>
             </div>
 
-            <!-- Messages -->
-            <div id="chat-messages" class="p-4 h-[300px] overflow-y-auto no-scrollbar space-y-4 bg-white flex flex-col-reverse"></div>
+            <!-- Body (Messages) -->
+            <div class="p-4 h-[300px] overflow-y-auto no-scrollbar space-y-4 bg-white">
+                <!-- Bot Message -->
+                <div class="flex gap-3">
+                    <div
+                        class="w-8 h-8 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="bot" class="w-4 h-4 text-zinc-600"></i>
+                    </div>
+                    <div class="flex flex-col gap-1 max-w-[80%]">
+                        <div class="text-[10px] text-zinc-400 font-medium ml-1">AgroBot</div>
+                        <div
+                            class="p-3 bg-zinc-50 border border-zinc-100 rounded-2xl rounded-tl-none text-xs text-zinc-700 leading-relaxed shadow-sm">
+                            Здравствуйте! Я могу помочь вам разобраться с платформой или ответить на вопросы по
+                            скорингу.
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Input -->
+                <!-- User Message Placeholder -->
+                <div class="flex gap-3 flex-row-reverse">
+                    <div
+                        class="p-3 bg-zinc-900 text-white rounded-2xl rounded-tr-none text-xs leading-relaxed shadow-sm max-w-[80%]">
+                        Как загрузить данные из Excel?
+                    </div>
+                </div>
+
+                <!-- Bot Response -->
+                <div class="flex gap-3">
+                    <div
+                        class="w-8 h-8 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="bot" class="w-4 h-4 text-zinc-600"></i>
+                    </div>
+                    <div class="flex flex-col gap-1 max-w-[80%]">
+                        <div class="text-[10px] text-zinc-400 font-medium ml-1">AgroBot</div>
+                        <div
+                            class="p-3 bg-zinc-50 border border-zinc-100 rounded-2xl rounded-tl-none text-xs text-zinc-700 leading-relaxed shadow-sm">
+                            Для загрузки данных перейдите в раздел "Прототип" и нажмите кнопку "Импорт". Система
+                            поддерживает форматы .xlsx и .csv.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
             <div class="p-3 border-t border-zinc-100 bg-white">
-                <form id="chat-form" class="relative">
-                    <input id="chat-input" type="text" placeholder="Задайте вопрос..."
+                <form onsubmit="event.preventDefault();" class="relative">
+                    <input type="text" placeholder="Задайте вопрос..."
                         class="w-full pl-4 pr-10 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all placeholder:text-zinc-400 text-zinc-900">
                     <button type="submit"
                         class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors">
@@ -249,80 +341,56 @@
             </div>
         </div>
 
-        <!-- Chat Trigger -->
-        <button onclick="toggleChat()" class="group relative h-14 w-14 bg-zinc-900 hover:bg-zinc-800 text-white rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95 z-50">
+        <!-- Chat Trigger Button -->
+        <button onclick="toggleChat()"
+            class="group relative h-14 w-14 bg-zinc-900 hover:bg-zinc-800 text-white rounded-full shadow-lg shadow-zinc-500/20 flex items-center justify-center transition-all hover:scale-105 active:scale-95 z-50">
             <i data-lucide="message-circle" class="w-6 h-6 group-hover:scale-110 transition-transform"></i>
             <span class="absolute top-0 right-0 h-3 w-3 bg-emerald-500 border-2 border-white rounded-full"></span>
         </button>
     </div>
 
     <script>
+        // Initialize Icons
         lucide.createIcons();
 
-        // Intersection Observer для анимаций
+        // Animation Observer
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
         }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Header scroll
+        document.querySelectorAll('.reveal').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Hide Header on Scroll
         let lastScrollTop = 0;
         const nav = document.querySelector('nav');
+
         window.addEventListener('scroll', () => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            if (scrollTop > lastScrollTop) nav.classList.add('-translate-y-full');
-            else nav.classList.remove('-translate-y-full');
+
+            if (scrollTop > lastScrollTop) {
+                // Scrolling down
+                nav.classList.add('-translate-y-full');
+            } else {
+                // Scrolling up
+                nav.classList.remove('-translate-y-full');
+            }
+
             lastScrollTop = scrollTop;
         });
 
-        // Chat functions
-        const chatWindow = document.getElementById('chat-window');
-        const chatMessages = document.getElementById('chat-messages');
-        const chatForm = document.getElementById('chat-form');
-        const chatInput = document.getElementById('chat-input');
-
+        // Chat Logic
         function toggleChat() {
-            chatWindow.classList.toggle('hidden');
+            const chatWindow = document.getElementById('chat-window');
             chatWindow.classList.toggle('active');
+            chatWindow.classList.toggle('hidden-state');
         }
-
-        function addMessage(message, sender='bot') {
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'flex gap-3 ' + (sender==='user' ? 'flex-row-reverse' : '');
-            msgDiv.innerHTML = sender==='user' ? `
-                <div class="p-3 bg-zinc-900 text-white rounded-2xl rounded-tr-none text-xs leading-relaxed shadow-sm max-w-[80%]">${message}</div>
-            ` : `
-                <div class="w-8 h-8 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="bot" class="w-4 h-4 text-zinc-600"></i>
-                </div>
-                <div class="flex flex-col gap-1 max-w-[80%]">
-                    <div class="text-[10px] text-zinc-400 font-medium ml-1">AgroBot</div>
-                    <div class="p-3 bg-zinc-50 border border-zinc-100 rounded-2xl rounded-tl-none text-xs text-zinc-700 leading-relaxed shadow-sm">${message}</div>
-                </div>
-            `;
-            chatMessages.prepend(msgDiv);
-            lucide.createIcons();
-        }
-
-        chatForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const message = chatInput.value.trim();
-            if(!message) return;
-            addMessage(message, 'user');
-            chatInput.value = '';
-            try {
-                const res = await fetch("/chat", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message })
-                });
-                const data = await res.json();
-                addMessage(data.reply || "Ошибка AI");
-            } catch(err) {
-                console.error(err);
-                addMessage("Ошибка соединения с сервером");
-            }
-        });
     </script>
 </body>
+
 </html>
