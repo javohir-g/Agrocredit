@@ -148,6 +148,70 @@
             margin-left: 0;
             color: rgba(0, 0, 0, 0.6);
         }
+
+        /* Chat button animations */
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes bounce-gentle {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes wiggle {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+            }
+            25% {
+                transform: rotate(-10deg) scale(1.1);
+            }
+            75% {
+                transform: rotate(10deg) scale(1.1);
+            }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), 0 0 40px rgba(16, 185, 129, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(16, 185, 129, 0.6), 0 0 60px rgba(16, 185, 129, 0.3);
+            }
+        }
+
+        .chat-trigger-button {
+            animation: bounce-gentle 2s ease-in-out infinite;
+        }
+
+        .chat-trigger-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.3);
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .chat-trigger-button:hover {
+            animation: wiggle 0.5s ease-in-out;
+        }
+
+        .chat-icon {
+            animation: wiggle 3s ease-in-out infinite;
+            animation-delay: 1s;
+        }
     </style>
 </head>
 
@@ -218,7 +282,7 @@
                 Посмотрите, как работает скоринг фермерских хозяйств в реальном времени.
             </p>
             <div class="flex justify-center">
-                <a href="https://appagrocredit.onrender.com/" target="_blank" rel="noopener noreferrer"
+                <a href="https://agroscore-app.onrender.com/" target="_blank" rel="noopener noreferrer"
                     class="group inline-flex items-center gap-2 bg-zinc-900 text-white text-sm font-medium px-6 py-3 rounded-full hover:bg-zinc-800 transition-all hover:scale-[1.02] shadow-xl shadow-zinc-200 active:scale-[0.98]">
                     <span data-i18n="hero.cta">Перейти к прототипу</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -385,13 +449,47 @@
                         Доступ к рабочей версии прототипа. Загрузите данные и получите мгновенный скоринг.
                     </p>
 
-                    <a href="https://appagrocredit.onrender.com/" target="_blank" rel="noopener noreferrer"
+                    <a href="https://agroscore-app.onrender.com/" target="_blank" rel="noopener noreferrer"
                         class="group relative inline-flex items-center gap-2 bg-white text-zinc-900 text-sm font-semibold px-8 py-4 rounded-full hover:bg-emerald-50 transition-all hover:scale-[1.02] shadow-lg hover:shadow-emerald-500/20 active:scale-[0.98]">
                         <span data-i18n="hero.cta">Перейти к прототипу</span>
                         <i data-lucide="external-link"
                             class="w-4 h-4 text-zinc-400 group-hover:text-emerald-600 transition-colors"></i>
                     </a>
 
+                </div>
+            </div>
+        </div>
+
+        <!-- API ACCESS SECTION -->
+        <div class="reveal mt-20" style="transition-delay: 300ms;">
+            <div class="bg-white rounded-3xl border border-zinc-200 shadow-sm overflow-hidden">
+                <div class="p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                        <div class="flex-1 text-center md:text-left">
+                            <div
+                                class="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-xs font-medium mb-4">
+                                <i data-lucide="code" class="w-3.5 h-3.5"></i>
+                                <span data-i18n="api.badge">Для разработчиков</span>
+                            </div>
+                            <h2 class="text-2xl md:text-3xl font-semibold tracking-tight text-zinc-900 mb-3"
+                                data-i18n="api.title">
+                                API доступ
+                            </h2>
+                            <p class="text-zinc-600 text-sm md:text-base leading-relaxed" data-i18n="api.description">
+                                Интегрируйте наш API скоринга в ваши системы. Полная документация с примерами запросов и
+                                ответов.
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <a href="https://agrocredit-api.onrender.com/docs" target="_blank" rel="noopener noreferrer"
+                                class="group inline-flex items-center gap-2 bg-blue-600 text-white text-sm font-semibold px-6 py-3.5 rounded-xl hover:bg-blue-700 transition-all hover:scale-[1.02] shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 active:scale-[0.98]">
+                                <i data-lucide="book-open" class="w-4 h-4"></i>
+                                <span data-i18n="api.button">Документация API</span>
+                                <i data-lucide="arrow-up-right"
+                                    class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -443,9 +541,9 @@
 
         <!-- Chat Trigger -->
         <button onclick="toggleChat()"
-            class="group relative h-14 w-14 bg-zinc-900 hover:bg-zinc-800 text-white rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95 z-50">
-            <i data-lucide="message-circle" class="w-6 h-6 group-hover:scale-110 transition-transform"></i>
-            <span class="absolute top-0 right-0 h-3 w-3 bg-emerald-500 border-2 border-white rounded-full"></span>
+            class="chat-trigger-button group relative h-14 w-14 bg-zinc-900 hover:bg-zinc-800 text-white rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95 z-50">
+            <i data-lucide="message-circle" class="chat-icon w-6 h-6 group-hover:scale-110 transition-transform"></i>
+            <span class="absolute top-0 right-0 h-3 w-3 bg-emerald-500 border-2 border-white rounded-full animate-pulse"></span>
         </button>
     </div>
 
@@ -599,6 +697,10 @@
                 'tech.status.item3': 'Улучшение точности алгоритмов',
                 'cta.title': 'Испытайте систему в действии',
                 'cta.subtitle': 'Доступ к рабочей версии прототипа. Загрузите данные и получите мгновенный скоринг.',
+                'api.badge': 'Для разработчиков',
+                'api.title': 'API доступ',
+                'api.description': 'Интегрируйте наш API скоринга в ваши системы. Полная документация с примерами запросов и ответов.',
+                'api.button': 'Документация API',
                 'chat.title': 'AI Помощник',
                 'chat.placeholder': 'Задайте вопрос...'
             },
@@ -626,6 +728,10 @@
                 'tech.status.item3': 'Algorithm accuracy improvement',
                 'cta.title': 'Try the System in Action',
                 'cta.subtitle': 'Access to a working prototype. Upload data and get instant scoring.',
+                'api.badge': 'For Developers',
+                'api.title': 'API Access',
+                'api.description': 'Integrate our scoring API into your systems. Full documentation with request and response examples.',
+                'api.button': 'API Documentation',
                 'chat.title': 'AI Assistant',
                 'chat.placeholder': 'Ask a question...'
             },
@@ -653,6 +759,10 @@
                 'tech.status.item3': 'Algoritmlar aniqligini yaxshilash',
                 'cta.title': 'Tizimni amalda sinab ko\'ring',
                 'cta.subtitle': 'Ishlaydigan prototipga kirish. Ma\'lumotlarni yuklang va bir zumda skoring oling.',
+                'api.badge': 'Dasturchilarga',
+                'api.title': 'API kirish',
+                'api.description': 'Bizning skoring API-ni tizimlaringizga integratsiya qiling. So\'rovlar va javoblar misollari bilan to\'liq hujjatlar.',
+                'api.button': 'API hujjatlari',
                 'chat.title': 'AI Yordamchi',
                 'chat.placeholder': 'Savol bering...'
             }
