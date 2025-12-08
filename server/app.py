@@ -2,9 +2,26 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from openai import OpenAI
 import os
+import threading
+import time
+import requests
+import logging
 from dotenv import load_dotenv
 
 load_dotenv()
+
+# Настройка логирования
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+# URLs для keep-alive пинга
+KEEP_ALIVE_URLS = [
+    "https://agroscore-app.onrender.com/",
+    "https://agrocredit-api.onrender.com/"
+]
+PING_INTERVAL = 840  # 14 минут в секундах
 
 # Настройка Flask для раздачи статических файлов из demo/
 app = Flask(__name__, 
@@ -118,6 +135,44 @@ Q3–Q4 2026 — масштабирование
 """
 
 # ============================================
+# KEEP-ALIVE ФУНКЦИОНАЛ
+# ============================================
+
+def ping_url(url):
+    """Отправляет GET запрос на указанный URL"""
+    try:
+        response = requests.get(url, timeout=30)
+        if response.status_code == 200:
+            logging.info(f"✓ Keep-alive: {url} - OK")
+        else:
+            logging.warning(f"⚠ Keep-alive: {url} - Status: {response.status_code}")
+        return True
+    except Exception as e:
+        logging.error(f"✗ Keep-alive: {url} - Error: {str(e)}")
+        return False
+
+def keep_alive_worker():
+    """Фоновый поток для поддержания сервисов активными"""
+    logging.info("🔄 Keep-alive worker запущен")
+    logging.info(f"📡 Пинг каждые {PING_INTERVAL // 60} минут")
+    
+    while True:
+        try:
+            time.sleep(PING_INTERVAL)
+            logging.info("--- Keep-alive пинг ---")
+            for url in KEEP_ALIVE_URLS:
+                ping_url(url)
+                time.sleep(2)  # Пауза между запросами
+        except Exception as e:
+            logging.error(f"Keep-alive worker error: {str(e)}")
+            time.sleep(60)
+
+def start_keep_alive():
+    """Запускает keep-alive worker в фоновом потоке"""
+    thread = threading.Thread(target=keep_alive_worker, daemon=True)
+    thread.start()
+
+# ============================================
 # СТАТИЧЕСКИЕ ФАЙЛЫ
 # ============================================
 
@@ -191,6 +246,12 @@ def chat():
 
 if __name__ == '__main__':
     PORT = int(os.getenv('PORT', 3000))
+    
+    # Запускаем keep-alive worker
+    start_keep_alive()
+    
     print(f"🚀 Server running on http://localhost:{PORT}")
     print(f"📡 Chat endpoint: http://localhost:{PORT}/chat")
+    print(f"🔄 Keep-alive активен для {len(KEEP_ALIVE_URLS)} сервисов")
+    
     app.run(host='0.0.0.0', port=PORT, debug=False)
